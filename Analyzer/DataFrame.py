@@ -67,7 +67,7 @@ class FlightAnalysis:
         self.df_airlines = self.df_airlines.drop('flight_id', axis=1)
         frequent_itemsets = apriori(self.df_airlines, min_support=0.0001, use_colnames=True)
         self.rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.1)
-        self.rules = self.rules.sort_values(by='leverage', ascending=False)
+        self.rules = self.rules.sort_values(by='confidence', ascending=False)
         self.rules = self.rules.round(5)
 
     def save_raw_rules(self, filename):
@@ -81,7 +81,7 @@ class FlightAnalysis:
 
 
 if __name__ == "__main__":
-    flight_analysis = FlightAnalysis('.\\flights_with_id.csv')
+    flight_analysis = FlightAnalysis('Analyzer/flights_with_id.csv')
     try:
         flight_analysis.load_data()
     except Exception as e:
